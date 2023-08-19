@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"desarrollo-aplicaciones-empresariales/pkg/handlers"
+	"back/pkg/handlers"
 	"github.com/gorilla/mux"
 )
 

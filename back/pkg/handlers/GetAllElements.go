@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"desarrollo-aplicaciones-empresariales/pkg/mocks"
+	"back/pkg/mocks"
 )
 
 func GetAllElements(w http.ResponseWriter, r *http.Request) {

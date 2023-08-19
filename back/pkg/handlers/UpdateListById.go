@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"desarrollo-aplicaciones-empresariales/pkg/mocks"
-	"desarrollo-aplicaciones-empresariales/pkg/models"
+	"back/pkg/mocks"
+	"back/pkg/models"
 	"github.com/gorilla/mux"
 )
 
