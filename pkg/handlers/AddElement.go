@@ -1,33 +1,33 @@
 package handlers
 
 import (
-    "encoding/json"
-    "io/ioutil"
-    "log"
-    "net/http"
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
 
-    "PROYECTO/pkg/mocks"
-    "PROYECTO/pkg/models"
+	"desarrollo-aplicaciones-empresariales/pkg/mocks"
+	"desarrollo-aplicaciones-empresariales/pkg/models"
 
-    "github.com/google/uuid"
+	"github.com/google/uuid"
 )
 
 func AddElement(w http.ResponseWriter, r *http.Request) {
-    // Read to request body
-    defer r.Body.Close()
-    body, err := ioutil.ReadAll(r.Body)
+	// Read to request body
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
 
-    if err != nil {
-        log.Fatalln(err)
-    }
-    var element models.Element
-    json.Unmarshal(body, &element)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	var element models.Element
+	json.Unmarshal(body, &element)
 
-    element.Id = (uuid.New()).String()
-    
-    mocks.Elements = append(mocks.Elements, element)
+	element.Id = (uuid.New()).String()
 
-    w.Header().Add("Content-Type", "application/json")
-    w.WriteHeader(http.StatusCreated)
-    json.NewEncoder(w).Encode("Created")
+	mocks.Elements = append(mocks.Elements, element)
+
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode("Created")
 }

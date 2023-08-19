@@ -1,4 +1,4 @@
-module PROYECTO
+module desarrollo-aplicaciones-empresariales
 
 go 1.21.0
 
