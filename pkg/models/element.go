@@ -1,8 +1,13 @@
 package models
 
-type List struct {
+import (
+    "time"
+)
+
+type Element struct {
     Id          string      `json:"id"`
-    UserId    string        `json:"userId"`    
+	ListId      string      `json:"listId"`
+	Date		time.Time	`json:"time"`
     Name        string      `json:"name"`
     Status      string      `json:"status"`
 }
