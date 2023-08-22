@@ -1,6 +1,6 @@
 package mocks
 
-import "desarrollo-aplicaciones-empresariales/pkg/models"
+import "back/pkg/models"
 
 var Lists = []models.List{
 	{Id: "11111111-111-1111-1111-111111111111", UserId: "1", Name: "List 1", Status: "Open"},

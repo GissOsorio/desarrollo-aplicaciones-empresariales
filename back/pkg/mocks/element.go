@@ -1,7 +1,7 @@
 package mocks
 
 import (
-	"desarrollo-aplicaciones-empresariales/pkg/models"
+	"back/pkg/models"
 	"time"
 )
 
