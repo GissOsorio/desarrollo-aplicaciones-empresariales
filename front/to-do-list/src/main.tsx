@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import {Auth0Provider} from "@auth0/auth0-react";
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <BrowserRouter>
       <Auth0Provider
           domain="aplicaciones-empresariales.us.auth0.com"
           clientId="LDxQSJy5CLnrKsMFVQhLMaQyGrgAjQSj"
@@ -15,5 +16,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       >
           <App />
       </Auth0Provider>
-  </React.StrictMode>,
+  </BrowserRouter>,
 )

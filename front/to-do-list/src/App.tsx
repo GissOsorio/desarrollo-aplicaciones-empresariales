@@ -1,25 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
-import {useAuth0} from "@auth0/auth0-react";
-import LoginButton from "./components/login-button.tsx";
-import Profile from "./components/profile.tsx";
-import LogoutButton from "./components/logout-button.tsx";
-
+import {
+    Route, Routes,
+} from "react-router-dom";
+import TableroPage from "./pages/tablero.page.tsx";
+import HomePage from "./pages/home.page.tsx";
+import TareasPage from "./pages/tareas.page.tsx";
 function App() {
-    const {isAuthenticated} =useAuth0()
   return (
-    <>
-<h1>Aplicaciones empresariales</h1>
-        {!isAuthenticated ?  <LoginButton/> : null}
-        {isAuthenticated ?   <LogoutButton/> : null}
-        {isAuthenticated ?    <Profile/>: null}
+      <div className="App">
+          <Routes>
 
-
-
-
-    </>
+              <Route path="/" element={ <HomePage /> } />
+              <Route path="/tablero-usuario" element={ <TableroPage /> } />
+              <Route path="/tareas/:idTablero" element={ <TareasPage /> } />
+          </Routes>
+      </div>
   )
 }
 
