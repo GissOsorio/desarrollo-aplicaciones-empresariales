@@ -46,18 +46,24 @@ func handleRequests(DB *sql.DB) {
     myRouter.HandleFunc("/", homePage)
 	// Get All Lists
     myRouter.HandleFunc("/lists", h.GetAllLists).Methods(http.MethodGet)
-	// Get List By UserId
-	myRouter.HandleFunc("/lists/userid/{id}", h.GetListByUserId).Methods(http.MethodGet)
+	// Get Lists By UserId
+	myRouter.HandleFunc("/lists/userid/{userId}", h.GetListByUserId).Methods(http.MethodGet)
 	// Get List By ListId
-	myRouter.HandleFunc("/lists/{id}", h.GetList).Methods(http.MethodGet)
+	myRouter.HandleFunc("/lists/{listId}", h.GetList).Methods(http.MethodGet)
 	// Create List
 	myRouter.HandleFunc("/lists", h.AddList).Methods(http.MethodPost)
+	// Update List Status By ListId
+	myRouter.HandleFunc("/lists/status/{listId}", h.UpdateListStatusById).Methods(http.MethodPut)
+
+	//Elements
+	// Get Elements By ListId
+	myRouter.HandleFunc("/elements/listid/{listId}", h.GetElementByListId).Methods(http.MethodGet)
 
 	//myRouter.HandleFunc("/elements/{id}", h.GetArticle).Methods(http.MethodGet)
     //myRouter.HandleFunc("/elements", h.AddArticle).Methods(http.MethodPost)
     //myRouter.HandleFunc("/elements/{id}", h.UpdateArticle).Methods(http.MethodPut)
     
-    log.Fatal(http.ListenAndServe(":8019", myRouter))
+    log.Fatal(http.ListenAndServe(":8023", myRouter))
 
 }
 

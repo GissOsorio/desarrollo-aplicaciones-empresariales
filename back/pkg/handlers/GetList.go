@@ -11,7 +11,7 @@ import (
 
 func (h handler) GetList(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
-    id := vars["id"]
+    id := vars["listId"]
 
     queryStmt := `SELECT * FROM lists WHERE id = $1 ;`
     results, err := h.DB.Query(queryStmt, id)

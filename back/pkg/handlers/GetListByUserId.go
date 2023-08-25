@@ -11,7 +11,7 @@ import (
 
 func (h handler) GetListByUserId(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
-    userId := vars["id"]
+    userId := vars["userId"]
 
     queryStmt := `SELECT * FROM lists WHERE userid = $1 ;`
     results, err := h.DB.Query(queryStmt, userId)

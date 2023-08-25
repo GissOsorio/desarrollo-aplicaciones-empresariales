@@ -1,27 +1,46 @@
 package handlers
 
 import (
+	"encoding/json"
+	"net/http"
+	"log"
 
+	"back/pkg/models"
+	"github.com/gorilla/mux"
 )
 
-// func GetElementByListId(w http.ResponseWriter, r *http.Request) {
-	// vars := mux.Vars(r)
-	// listId := vars["listId"]
+func (h handler) GetElementByListId(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    listId := vars["listId"]
 
-	// matchingElements := []models.Element{}
+    queryStmt := `SELECT * FROM elements WHERE listid = $1 ;`
+    results, err := h.DB.Query(queryStmt, listId)
+    if err != nil {
+        log.Println("failed to execute query", err)
+        w.WriteHeader(500)
+        return
+    }
+	defer results.Close()
 
-	// for _, element := range mocks.Elements {
-	// 	if element.ListId == listId {
-	// 		matchingElements = append(matchingElements, element)
-	// 	}
-	// }
+	var elements []models.Element 
 
-	// if len(matchingElements) == 0 {
-	// 	w.WriteHeader(http.StatusNotFound)
-	// 	return
-	// }
-
-	// w.Header().Set("Content-Type", "application/json")
-	// w.WriteHeader(http.StatusOK)
-	// json.NewEncoder(w).Encode(matchingElements)
-// }
+    for results.Next() {
+        var element models.Element
+        err = results.Scan(&element.Id, &element.Date,&element.ListId, &element.Name, &element.Status)
+        if err != nil {
+            log.Println("failed to scan", err)
+            w.WriteHeader(500)
+            return
+        }
+        elements = append(elements, element) 
+    }
+    w.Header().Add("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    
+    err = json.NewEncoder(w).Encode(elements)
+    if err != nil {
+        log.Println("failed to encode JSON", err)
+        w.WriteHeader(500)
+        return
+    }
+}
