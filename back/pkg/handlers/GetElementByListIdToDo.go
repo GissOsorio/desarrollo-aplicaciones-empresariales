@@ -9,11 +9,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (h handler) GetElementByListId(w http.ResponseWriter, r *http.Request) {
+func (h handler) GetElementByListIdToDo(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     listId := vars["listId"]
 
-    queryStmt := `SELECT * FROM elements WHERE listid = $1 ;`
+    queryStmt := `SELECT * FROM elements WHERE listid = $1  AND status = 'todo';`
     results, err := h.DB.Query(queryStmt, listId)
     if err != nil {
         log.Println("failed to execute query", err)

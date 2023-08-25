@@ -12,8 +12,8 @@ import (
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the Article REST API!")
-	fmt.Println("Article REST API")
+	fmt.Fprintf(w, "Home REST API!")
+	fmt.Println("Home REST API")
 }
 
 func handleRequests(DB *sql.DB) {
@@ -44,14 +44,41 @@ func handleRequests(DB *sql.DB) {
 	
 	myRouter := mux.NewRouter().StrictSlash(true)
     myRouter.HandleFunc("/", homePage)
+	//Lists
+	// Get All Lists
     myRouter.HandleFunc("/lists", h.GetAllLists).Methods(http.MethodGet)
-    myRouter.HandleFunc("/elements", h.GetAllElements).Methods(http.MethodGet)
+	// Get Lists By UserId
+	myRouter.HandleFunc("/lists/userid/{userId}", h.GetListByUserId).Methods(http.MethodGet)
+	// Get List By ListId
+	myRouter.HandleFunc("/lists/{listId}", h.GetList).Methods(http.MethodGet)
+	// Create List
+	myRouter.HandleFunc("/lists", h.AddList).Methods(http.MethodPost)
+	// Update List Status By ListId
+	myRouter.HandleFunc("/lists/status/{listId}", h.UpdateListStatusById).Methods(http.MethodPut)
+
+	//Elements
+	// Get All Elements
+	myRouter.HandleFunc("/elements", h.GetAllElements).Methods(http.MethodGet)
+	// Get Elements By ListId
+	myRouter.HandleFunc("/elements/listid/{listId}", h.GetElementByListId).Methods(http.MethodGet)
+	// Get ToDo Elements By ListId
+	myRouter.HandleFunc("/elements-todo/listid/{listId}", h.GetElementByListIdToDo).Methods(http.MethodGet)
+	// Get Doing Elements By ListId
+	myRouter.HandleFunc("/elements-doing/listid/{listId}", h.GetElementByListIdDoing).Methods(http.MethodGet)
+	// Get Done Elements  By ListId
+	myRouter.HandleFunc("/elements-done/listid/{listId}", h.GetElementByListIdDone).Methods(http.MethodGet)
+	// Create Element
+	myRouter.HandleFunc("/elements", h.AddElement).Methods(http.MethodPost)
+	// Update Element Status By ElementId
+	myRouter.HandleFunc("/elements/status/{elementId}", h.UpdateElementStatusById).Methods(http.MethodPut)
 	
+
+
 	//myRouter.HandleFunc("/elements/{id}", h.GetArticle).Methods(http.MethodGet)
     //myRouter.HandleFunc("/elements", h.AddArticle).Methods(http.MethodPost)
     //myRouter.HandleFunc("/elements/{id}", h.UpdateArticle).Methods(http.MethodPut)
     
-    log.Fatal(http.ListenAndServe(":8014", myRouter))
+    log.Fatal(http.ListenAndServe(":8028", myRouter))
 
 }
 
