@@ -1,32 +1,27 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
 
-	"back/pkg/mocks"
-	"back/pkg/models"
-	"github.com/gorilla/mux"
 )
 
-func GetElementByListId(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	listId := vars["listId"]
+// func GetElementByListId(w http.ResponseWriter, r *http.Request) {
+	// vars := mux.Vars(r)
+	// listId := vars["listId"]
 
-	matchingElements := []models.Element{}
+	// matchingElements := []models.Element{}
 
-	for _, element := range mocks.Elements {
-		if element.ListId == listId {
-			matchingElements = append(matchingElements, element)
-		}
-	}
+	// for _, element := range mocks.Elements {
+	// 	if element.ListId == listId {
+	// 		matchingElements = append(matchingElements, element)
+	// 	}
+	// }
 
-	if len(matchingElements) == 0 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
+	// if len(matchingElements) == 0 {
+	// 	w.WriteHeader(http.StatusNotFound)
+	// 	return
+	// }
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(matchingElements)
-}
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// json.NewEncoder(w).Encode(matchingElements)
+// }

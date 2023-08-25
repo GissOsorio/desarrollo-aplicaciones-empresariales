@@ -2,10 +2,11 @@ package models
 
 import (
     "time"
+    "github.com/google/uuid"
 )
 
 type Element struct {
-    Id          string      `json:"id"`
+    Id          uuid.UUID   `json:"id"`
 	ListId      string      `json:"listId"`
 	Date		time.Time	`json:"time"`
     Name        string      `json:"name"`
