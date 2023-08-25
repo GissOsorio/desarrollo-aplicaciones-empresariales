@@ -38,6 +38,36 @@ func CloseConnection(db *sql.DB) {
     defer db.Close()
 }
 
+func CreateTableUsers(db *sql.DB) {
+    var exists bool
+    if err := db.QueryRow("SELECT EXISTS (SELECT FROM pg_tables WHERE  schemaname = 'public' AND tablename = 'lists' );").Scan(&exists); err != nil {
+        fmt.Println("failed to execute query", err)
+        return
+    }
+    if !exists {
+        users, err := db.Query("CREATE TABLE users (id VARCHAR(100) PRIMARY KEY, date timestamp, name VARCHAR(50) NOT NULL);")
+        if err != nil {
+            fmt.Println("failed to execute query", err)
+            return
+        }
+        fmt.Println("Table created successfully", users)
+
+        for _, user := range mocks.Users {
+            queryStmt := `INSERT INTO users (id,date,name) VALUES ($1, $2, $3) RETURNING id;`
+
+            err := db.QueryRow(queryStmt, &user.Id, &user.Date, &user.Name).Scan(&user.Id)
+            if err != nil {
+                log.Println("failed to execute query", err)
+                return
+            }
+        }
+        fmt.Println("Mock Users included in Table", users)
+    } else {
+        fmt.Println("Table 'users' already exists ")
+    }
+
+}
+
 func CreateTableLists(db *sql.DB) {
     var exists bool
     if err := db.QueryRow("SELECT EXISTS (SELECT FROM pg_tables WHERE  schemaname = 'public' AND tablename = 'lists' );").Scan(&exists); err != nil {
