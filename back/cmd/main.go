@@ -57,6 +57,8 @@ func handleRequests(DB *sql.DB) {
 	myRouter.HandleFunc("/lists/status/{listId}", h.UpdateListStatusById).Methods(http.MethodPut)
 
 	//Elements
+	// Get All Elements
+	myRouter.HandleFunc("/elements", h.GetAllElements).Methods(http.MethodGet)
 	// Get Elements By ListId
 	myRouter.HandleFunc("/elements/listid/{listId}", h.GetElementByListId).Methods(http.MethodGet)
 	// Get ToDo Elements By ListId
@@ -67,14 +69,16 @@ func handleRequests(DB *sql.DB) {
 	myRouter.HandleFunc("/elements-done/listid/{listId}", h.GetElementByListIdDone).Methods(http.MethodGet)
 	// Create Element
 	myRouter.HandleFunc("/elements", h.AddElement).Methods(http.MethodPost)
+	// Update Element Status By ElementId
+	myRouter.HandleFunc("/elements/status/{elementId}", h.UpdateElementStatusById).Methods(http.MethodPut)
 	
 
-	
+
 	//myRouter.HandleFunc("/elements/{id}", h.GetArticle).Methods(http.MethodGet)
     //myRouter.HandleFunc("/elements", h.AddArticle).Methods(http.MethodPost)
     //myRouter.HandleFunc("/elements/{id}", h.UpdateArticle).Methods(http.MethodPut)
     
-    log.Fatal(http.ListenAndServe(":8026", myRouter))
+    log.Fatal(http.ListenAndServe(":8028", myRouter))
 
 }
 
