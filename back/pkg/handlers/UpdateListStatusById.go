@@ -14,7 +14,6 @@ func (h handler) UpdateListStatusById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := vars["listId"]
 
-    // Read request body
     defer r.Body.Close()
     body, err := ioutil.ReadAll(r.Body)
 
