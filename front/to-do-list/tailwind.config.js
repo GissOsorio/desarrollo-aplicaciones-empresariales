@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        "mainBackgroundColor": '#0D1117',
+        "mainBackgroundColor": '#ffffff',
         "columnBackgroundColor": '#161C22'
       }
     },
