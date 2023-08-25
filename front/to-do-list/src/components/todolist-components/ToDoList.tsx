@@ -30,6 +30,15 @@ const TodoList = () => {
 
         setTodos(updatedTodos);
     };
+    const addTask = (content, section) => {
+        const newTask = {
+            id: String(new Date().getTime()), // Generar ID único (puedes usar una librería como uuid)
+            content,
+            status: section,
+        };
+
+        setTodos([...todos, newTask]);
+    };
 
     const getNextStatus = (currentStatus) => {
         switch (currentStatus) {
@@ -43,6 +52,11 @@ const TodoList = () => {
     };
 
     const sections = ['todo', 'doing', 'done'];
+    const sectionClasses = {
+        todo: 'todo-section',
+        doing: 'doing-section',
+        done: 'done-section'
+    };
 
     return (
         <DragDropContext onDragEnd={handleDragEnd}>
@@ -53,6 +67,8 @@ const TodoList = () => {
                         section={section}
                         todos={todos.filter((todo) => todo.status === section)}
                         changeStatus={changeStatus}
+                        addTask={addTask}
+                        sectionClass={sectionClasses[section]}
                     />
                 ))}
             </div>

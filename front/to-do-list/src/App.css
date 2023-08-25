@@ -56,3 +56,68 @@ body,
   justify-content: space-between;
   align-items: center;
 }
+.add-task {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.add-task input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 150px; /* Limita el ancho del input */
+  margin-right: 10px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  max-width: 120px; /* Limita el ancho del botón */
+}
+
+.btn-success .icon-add {
+  margin-right: 8px;
+  fill: white;
+  width: 16px;
+  height: 16px;
+}
+.add-task .separator {
+  width: 10px;
+  height: 2px;
+  background-color: #007bff; /* Color azul */
+}
+
+/* Estilos para las cabeceras de las columnas */
+.column-header {
+  text-align: center;
+  padding: 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.todo-section .column-header {
+  background-color: #007bff; /* Azul */
+  color: white;
+  margin-bottom: 25px;
+}
+
+.doing-section .column-header {
+  background-color: #ffc107; /* Amarillo (tonalidad de warning) */
+  color: black;
+  margin-bottom: 25px;
+
+}
+
+.done-section .column-header {
+  background-color: #28a745; /* Verde */
+  color: white;
+  margin-bottom: 25px;
+
+}
