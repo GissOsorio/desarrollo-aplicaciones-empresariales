@@ -1,5 +1,6 @@
 import  { useState, useEffect } from 'react';
 import TableroUsuario from "./tablero-usuario.tsx";
+import Profile from "./profile.tsx";
 
 const ListaTableroUsuario = () => {
     const [usuarios, setUsuarios] = useState([]);
@@ -13,7 +14,10 @@ const ListaTableroUsuario = () => {
     }, []);
 
     return (
+        <>
             <TableroUsuario usuarios={usuarios} />
+        </>
+
     );
 }
 

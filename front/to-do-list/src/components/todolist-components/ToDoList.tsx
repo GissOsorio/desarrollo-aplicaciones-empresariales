@@ -10,6 +10,7 @@ const initialTodos = [
 
 const TodoList = () => {
     const [todos, setTodos] = useState(initialTodos);
+    const [serverUrl, setServerUrl] = useState('http://localhost:5000');
 
     const handleDragEnd = (result) => {
         if (!result.destination) return;
