@@ -1,8 +1,12 @@
 package mocks
 
-import "back/pkg/models"
+import (
+    "time"
+	"back/pkg/models"
+	"github.com/google/uuid"
+)
 
 var Lists = []models.List{
-	{Id: "11111111-111-1111-1111-111111111111", UserId: "1", Name: "List 1", Status: "Open"},
-	{Id: "22222222-222-2222-2222-222222222222", UserId: "2", Name: "List 2", Status: "Open"},
+	{Id: uuid.New(), Date: time.Now(), UserId: "1", Name: "Lista de Compras", Status: "Open"},
+	{Id: uuid.New(), Date: time.Now(), UserId: "1", Name: "Lista de Ciudades", Status: "Open"},
 }
