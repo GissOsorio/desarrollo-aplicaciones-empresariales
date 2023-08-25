@@ -3,30 +3,44 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"log"
 
-	"back/pkg/mocks"
 	"back/pkg/models"
 	"github.com/gorilla/mux"
 )
 
-func GetListByUserId(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userId := vars["userId"]
+func (h handler) GetListByUserId(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    userId := vars["id"]
 
-	matchingLists := []models.List{}
+    queryStmt := `SELECT * FROM lists WHERE userid = $1 ;`
+    results, err := h.DB.Query(queryStmt, userId)
+    if err != nil {
+        log.Println("failed to execute query", err)
+        w.WriteHeader(500)
+        return
+    }
+	defer results.Close()
 
-	for _, list := range mocks.Lists {
-		if list.UserId == userId {
-			matchingLists = append(matchingLists, list)
-		}
-	}
+	var lists []models.List 
 
-	if len(matchingLists) == 0 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(matchingLists)
+    for results.Next() {
+        var list models.List
+        err = results.Scan(&list.Id, &list.Date, &list.UserId, &list.Name, &list.Status)
+        if err != nil {
+            log.Println("failed to scan", err)
+            w.WriteHeader(500)
+            return
+        }
+        lists = append(lists, list) 
+    }
+    w.Header().Add("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    
+    err = json.NewEncoder(w).Encode(lists)
+    if err != nil {
+        log.Println("failed to encode JSON", err)
+        w.WriteHeader(500)
+        return
+    }
 }

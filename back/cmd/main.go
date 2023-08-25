@@ -12,8 +12,8 @@ import (
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the Article REST API!")
-	fmt.Println("Article REST API")
+	fmt.Fprintf(w, "Home REST API!")
+	fmt.Println("Home REST API")
 }
 
 func handleRequests(DB *sql.DB) {
@@ -45,13 +45,15 @@ func handleRequests(DB *sql.DB) {
 	myRouter := mux.NewRouter().StrictSlash(true)
     myRouter.HandleFunc("/", homePage)
     myRouter.HandleFunc("/lists", h.GetAllLists).Methods(http.MethodGet)
-    myRouter.HandleFunc("/elements", h.GetAllElements).Methods(http.MethodGet)
-	
+	myRouter.HandleFunc("/lists/{id}", h.GetListByUserId).Methods(http.MethodGet)
+
+	myRouter.HandleFunc("/elements", h.GetAllElements).Methods(http.MethodGet)
+
 	//myRouter.HandleFunc("/elements/{id}", h.GetArticle).Methods(http.MethodGet)
     //myRouter.HandleFunc("/elements", h.AddArticle).Methods(http.MethodPost)
     //myRouter.HandleFunc("/elements/{id}", h.UpdateArticle).Methods(http.MethodPut)
     
-    log.Fatal(http.ListenAndServe(":8014", myRouter))
+    log.Fatal(http.ListenAndServe(":8016", myRouter))
 
 }
 
