@@ -8,12 +8,6 @@ import (
 	"back/pkg/models"
 )
 
-// func GetAllElements(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Add("Content-Type", "application/json")
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(mocks.Elements)
-// }
-
 func (h handler) GetAllElements(w http.ResponseWriter, r *http.Request) { 
     results, err := h.DB.Query("SELECT * FROM elements;")
     if err != nil {
