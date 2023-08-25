@@ -44,16 +44,20 @@ func handleRequests(DB *sql.DB) {
 	
 	myRouter := mux.NewRouter().StrictSlash(true)
     myRouter.HandleFunc("/", homePage)
+	// Get All Lists
     myRouter.HandleFunc("/lists", h.GetAllLists).Methods(http.MethodGet)
-	myRouter.HandleFunc("/lists/{id}", h.GetListByUserId).Methods(http.MethodGet)
-
-	myRouter.HandleFunc("/elements", h.GetAllElements).Methods(http.MethodGet)
+	// Get List By UserId
+	myRouter.HandleFunc("/lists/userid/{id}", h.GetListByUserId).Methods(http.MethodGet)
+	// Get List By ListId
+	myRouter.HandleFunc("/lists/{id}", h.GetList).Methods(http.MethodGet)
+	// Create List
+	myRouter.HandleFunc("/lists", h.AddList).Methods(http.MethodPost)
 
 	//myRouter.HandleFunc("/elements/{id}", h.GetArticle).Methods(http.MethodGet)
     //myRouter.HandleFunc("/elements", h.AddArticle).Methods(http.MethodPost)
     //myRouter.HandleFunc("/elements/{id}", h.UpdateArticle).Methods(http.MethodPut)
     
-    log.Fatal(http.ListenAndServe(":8016", myRouter))
+    log.Fatal(http.ListenAndServe(":8019", myRouter))
 
 }
 
