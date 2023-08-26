@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import api from "../routes/api.tsx";
 import axios from "axios";
 
-const TableroUsuario = ({ tablerosUsuario, userId }) => {
+const TableroUsuario = ({ tablerosUsuario, userId, onSetTableros }) => {
 const [nuevoTablero, setNuevoTablero] = useState({ name: '', status: 'open', userId });
 const [tableros, setTableros] = useState([]);
 const handleInputChange = (event) => {
@@ -15,13 +15,19 @@ const handleInputChange = (event) => {
 };
 
     const agregarTablero = () => {
-        console.log('nuevo tabler', nuevoTablero)
-        fetch('http://localhost:8080/lists', {  // Enter your IP address here
+        fetch('http://localhost:8080/lists', {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify(nuevoTablero) // body data type must match "Content-Type" header
-
-        })
+            body: JSON.stringify(nuevoTablero)
+        }).then(response => response.json())
+            .then(newTablero => {
+                const nuevoTableroLista = {
+                    id: newTablero,
+                    ...nuevoTablero
+                };
+                onSetTableros(prevTableros => [...prevTableros, nuevoTableroLista]);
+                setNuevoTablero({ name: '', status: 'open', userId });
+            });
     };
 
 

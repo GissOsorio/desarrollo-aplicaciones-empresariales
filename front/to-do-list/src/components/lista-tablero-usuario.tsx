@@ -25,7 +25,7 @@ const ListaTableroUsuario = () => {
         // Muestra un indicador de carga o simplemente no renderiza nada
         return (
             <>
-                <TableroUsuario tablerosUsuario={tablerosUsuario} userId={userId} />
+                <TableroUsuario tablerosUsuario={tablerosUsuario} userId={userId} onSetTableros={setTableros} />
             </>
         );
     }

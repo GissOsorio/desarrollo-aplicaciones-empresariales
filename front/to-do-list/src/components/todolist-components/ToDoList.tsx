@@ -3,8 +3,10 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Section from "./section.tsx";
 
 const TodoList = ({tareas, tableroId}) => {
-    const [newTaskContent, setNewTaskContent] = useState('');
 
+    if (!Array.isArray(tareas) || tareas.length === 0) {
+        return <p>No hay tareas disponibles.</p>;
+    }
     const [todos, setTodos] = useState(tareas);
 
     const handleDragEnd = (result) => {
@@ -60,45 +62,6 @@ const TodoList = ({tareas, tableroId}) => {
         doing: 'doing-section',
         done: 'done-section'
     };
-
-    if (!Array.isArray(tareas) || tareas.length === 0) {
-        return  (
-            <div>
-                <p>No hay tareas disponibles.</p>
-                <div className="add-task">
-                    <input
-                        type="text"
-                        placeholder="Crear nueva tarea..."
-                        value={newTaskContent}
-                        onChange={(e) => setNewTaskContent(e.target.value)}
-                    />
-                    <button onClick={() => addTask(newTaskContent, 'todo')}
-                            className="btn-success"
-                    >Agregar
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="icon-add"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                            />
-                        </svg>
-                        Agregar
-                    </button>
-                </div>
-                <div className="add-task-input">
-
-
-                </div>
-            </div>
-        );
-    }
 
     return (
        <>

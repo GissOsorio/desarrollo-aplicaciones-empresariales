@@ -4,7 +4,16 @@ import ListaTableroUsuario from "../components/lista-tablero-usuario.tsx";
 const Tablero = () => {
     const {isAuthenticated, user} = useAuth0()
     return <>
-        <h1> Tablero del usuario {user?.name}</h1>
+        <div className="container-titulo-tareas">
+            <div className="text-container">
+                <h3 className="titulo" >Tablero del usuario {user?.name}</h3>
+                <span className="detalles">Organiza tus tableros ✍️ </span>
+            </div>
+
+            <p className="icono-lista">
+                📎
+            </p>
+        </div>
         <ListaTableroUsuario/>
     </>
 

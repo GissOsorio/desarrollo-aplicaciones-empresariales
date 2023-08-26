@@ -29,7 +29,16 @@ const TareasPage = () => {
     }, [idTablero]);
     return (
         <section className="Blog">
-            <p >{ tablero.name}</p>
+            <div className="container-titulo-tareas">
+                <div className="text-container">
+                    <h3 className="titulo" >{ tablero.name }</h3>
+                    <span className="detalles">Organiza y dale un seguimiento a tus actividades ✍️ </span>
+                </div>
+
+               <p className="icono-lista">
+                   📖
+               </p>
+            </div>
             <TodoList tareas={tareas} tableroId={idTablero}/>
         </section>
     )
