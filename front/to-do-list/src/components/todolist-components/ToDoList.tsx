@@ -2,11 +2,8 @@ import  { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Section from "./section.tsx";
 
-const TodoList = ({tareas, tableroId}) => {
+const TodoList = ({tareas, tableroId, onSetTareas}) => {
 
-    if (!Array.isArray(tareas) || tareas.length === 0) {
-        return <p>No hay tareas disponibles.</p>;
-    }
     const [todos, setTodos] = useState(tareas);
 
     const handleDragEnd = (result) => {
@@ -14,19 +11,33 @@ const TodoList = ({tareas, tableroId}) => {
     };
 
     const changeStatus = (todoId) => {
-        const updatedTodos = todos.map((todo) =>
-            todo.id === todoId
-                ? { ...todo, status: getNextStatus(todo.status) }
-                : todo
-        );
-        fetch('http://localhost:8080/elements/status/'+todoId, {  // Enter your IP address here
+        console.log('todoId', todoId)
+        const updatedTodo = tareas.find((todo) => todo.id === todoId);
+        if (!updatedTodo) {
+            console.log('notfound')
+            return; // Exit if the todo is not found
+        }
+
+        const updatedStatus = getNextStatus(updatedTodo.status);
+
+        fetch('http://localhost:8080/elements/status/' + todoId, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify(updatedTodos.filter((element)=> element.id === todoId)[0]) // body data type must match "Content-Type" header
-        }).then((response)=> {
-            console.log('response', response)
+            body: JSON.stringify({ status: updatedStatus }) // Send only the updated status
         })
-        setTodos(updatedTodos);
+            .then((response) => response.json())
+            .then(() => {
+                const updatedTodos = todos.map((todo) =>
+                    todo.id === todoId ? { ...todo, status: updatedStatus } : todo
+                );
+                updatedTodo.status = updatedStatus;
+                console.log('updatedTodo',updatedTodo)
+                onSetTareas([ ...tareas, updatedTodo]);
+                setTodos([...todo, updatedTodo]);
+            })
+            .catch((error) => {
+                console.error('Error updating status:', error);
+            });
     };
     const addTask = (content, section) => {
 
@@ -39,10 +50,16 @@ const TodoList = ({tareas, tableroId}) => {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(newTask) // body data type must match "Content-Type" header
-        }).then((response)=> {
-            console.log('response crear', response)
-        })
-        setTodos([...todos, newTask]);
+        }).then(response=> response.json())
+            .then(idTask=> {
+                const newTaskList = {
+                    id: idTask,
+                    ...newTask
+                }
+                onSetTareas([...tareas, newTaskList]);
+                setTodos([...tareas, newTaskList]);
+            })
+
     };
 
     const getNextStatus = (currentStatus) => {
@@ -62,17 +79,25 @@ const TodoList = ({tareas, tableroId}) => {
         doing: 'doing-section',
         done: 'done-section'
     };
+    const handleAddTaskClick = () => {
+        const inputElement = document.querySelector('.task-input');
+        const taskContent = inputElement.value;
+        if (taskContent) {
+            addTask(taskContent, 'todo'); // Assuming 'todo' is the default section
+            inputElement.value = ''; // Clear the input field
+        }
+    };
 
     return (
-       <>
+       <> {tareas?
            <DragDropContext onDragEnd={handleDragEnd}>
                <div className="sections-container">
                    {sections.map((section) => (
                        <Section
                            key={section}
-                           todosFull={todos}
+                           todosFull={tareas}
                            section={section}
-                           todos={todos.filter((todo) => {
+                           todos={tareas.filter((todo) => {
                                return todo.status === section;
                            })}
                            changeStatus={changeStatus}
@@ -80,7 +105,7 @@ const TodoList = ({tareas, tableroId}) => {
                            sectionClass={sectionClasses[section]}
                        >
                            {/* Render the section only if there are todos */}
-                           {todos.filter((todo) => todo.status === section).length > 0 && (
+                           {tareas.filter((todo) => todo.status === section).length > 0 && (
                                <Section
                                    key={section}
                                    todosFull={todos}
@@ -95,6 +120,27 @@ const TodoList = ({tareas, tableroId}) => {
                    ))}
                </div>
            </DragDropContext>
+           : (
+               <div className="empty-list">
+                   <p>UPS.! Parece que no tienes tareas creadas aun. 😿</p>
+                   <p>Ingresa una nueva tarea y podras organizarte de una mejor manera. 😄</p>
+                   <div className="add-task">
+                       <input
+                           type="text"
+                           placeholder="Nueva tarea"
+                           className="task-input"
+                           // Add your input handling logic here
+                       />
+                       <button
+                           className="add-task-btn"
+                           onClick={handleAddTaskClick}
+                       >
+                           Agregar Tarea
+                       </button>
+                   </div>
+               </div>
+           )}
+
        </>
     )
 };

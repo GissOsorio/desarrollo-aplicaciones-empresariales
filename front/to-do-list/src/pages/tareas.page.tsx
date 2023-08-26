@@ -21,7 +21,6 @@ const TareasPage = () => {
         api.get(`elements/listid/${idTablero}`)
             .then(response => {
                 setTareas(response.data);
-                console.log('response data', response.data);
             })
             .catch(error => {
                 console.error('Error fetching user lists:', error);
@@ -39,7 +38,7 @@ const TareasPage = () => {
                    📖
                </p>
             </div>
-            <TodoList tareas={tareas} tableroId={idTablero}/>
+            <TodoList tareas={tareas} tableroId={idTablero} onSetTareas={setTareas}/>
         </section>
     )
 }
