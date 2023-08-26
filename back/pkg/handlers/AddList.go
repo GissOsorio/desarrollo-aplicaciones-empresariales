@@ -11,8 +11,9 @@ import (
 )
 
 func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
-    enableCors(&w)
+    
     defer r.Body.Close()
+    enableCors(&w)
     body, err := ioutil.ReadAll(r.Body)
 
     if err != nil {
