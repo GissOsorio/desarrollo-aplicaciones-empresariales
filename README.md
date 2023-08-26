@@ -1,7 +1,24 @@
 # desarrollo-aplicaciones-empresariales
 
 ## Backend
-
+#### Prerequisitos
+- Tener instalado go. Se puede validar con el comando 
+ ```bash
+go version
+```
+### Ejecutar proyecto localmente
+1. Ingresar en el directorio del aplicativo. Si nos encontramos en el directorio raiz del repositorio podemos ejecutar el comando para ingresar al aplicativo 
+```bash
+cd back
+```
+2. Instalar la base de datos mediante docker, es importante verificar que nos encontremos en el directorio raiz.
+```bash
+docker compose up
+```
+3. Levantar el aplicativo, es importante verificar que nos encontremos en el directorio back.
+```bash
+go run main.go
+```
 
 ## Frontend
 
