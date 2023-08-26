@@ -10,6 +10,7 @@ import (
 )
 
 func (h handler) AddUser(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     defer r.Body.Close()
     body, err := ioutil.ReadAll(r.Body)
 

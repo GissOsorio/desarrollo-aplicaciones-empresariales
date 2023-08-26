@@ -11,6 +11,7 @@ import (
 )
 
 func (h handler) UpdateElementStatusById(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     vars := mux.Vars(r)
     id := vars["elementId"]
 

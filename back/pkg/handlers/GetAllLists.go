@@ -9,6 +9,7 @@ import (
 )
 
 func (h handler) GetAllLists(w http.ResponseWriter, r *http.Request) { 
+    enableCors(&w)
     results, err := h.DB.Query("SELECT * FROM lists;")
     if err != nil {
         log.Println("failed to execute query", err)

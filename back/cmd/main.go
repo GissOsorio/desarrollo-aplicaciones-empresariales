@@ -67,3 +67,4 @@ func main() {
     handleRequests(DB)
     db.CloseConnection(DB)
 }
+

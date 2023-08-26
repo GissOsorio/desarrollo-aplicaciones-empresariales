@@ -11,6 +11,7 @@ import (
 )
 
 func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     defer r.Body.Close()
     body, err := ioutil.ReadAll(r.Body)
 
@@ -36,3 +37,5 @@ func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusCreated)
     json.NewEncoder(w).Encode("Created")
 }
+
+
