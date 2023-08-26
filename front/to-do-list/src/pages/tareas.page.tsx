@@ -20,8 +20,8 @@ const TareasPage = () => {
     }, [idTablero]);
     return (
         <section className="Blog">
-            <p className="white">Tareas Page {idTablero}</p>
-            <TodoList tareas={tareas}/>
+            <p >Tareas Page {idTablero}</p>
+            <TodoList tareas={tareas} tableroId={idTablero}/>
         </section>
     )
 }

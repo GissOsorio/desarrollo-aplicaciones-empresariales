@@ -42,7 +42,6 @@ const HomePage = () => {
                 </div>
                 {isAuthenticated ? <LogoutButton/> : null}
                 {usuarioGuardado ? <Menu userId={user?.sub}/> : null}
-                {isAuthenticated ? <Profile /> : null}
 
             </div>
 

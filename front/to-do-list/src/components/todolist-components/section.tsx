@@ -3,7 +3,7 @@ import TodoItem from "./toDoItem.tsx";
 import {useState} from "react";
 
 
-const Section = ({ section, todos, changeStatus, addTask, sectionClass }) => {
+const Section = ({ section, todos, changeStatus, addTask, sectionClass, todosFull }) => {
     const [newTaskContent, setNewTaskContent] = useState('');
 
     const handleAddTask = () => {

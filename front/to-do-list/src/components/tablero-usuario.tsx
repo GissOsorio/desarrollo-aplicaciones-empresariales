@@ -15,8 +15,8 @@ const handleInputChange = (event) => {
 };
 
     const agregarTablero = () => {
+        console.log('nuevo tabler', nuevoTablero)
         fetch('http://localhost:8080/lists', {  // Enter your IP address here
-
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(nuevoTablero) // body data type must match "Content-Type" header
