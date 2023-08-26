@@ -4,7 +4,6 @@ import Section from "./section.tsx";
 
 const TodoList = ({tareas, tableroId, onSetTareas}) => {
 
-    const [todos, setTodos] = useState(tareas);
 
     const handleDragEnd = (result) => {
 
@@ -27,13 +26,13 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
         })
             .then((response) => response.json())
             .then(() => {
-                const updatedTodos = todos.map((todo) =>
+                const updatedTodos = tareas.map((todo) =>
                     todo.id === todoId ? { ...todo, status: updatedStatus } : todo
                 );
                 updatedTodo.status = updatedStatus;
                 console.log('updatedTodo',updatedTodo)
                 onSetTareas([ ...tareas, updatedTodo]);
-                setTodos([...todo, updatedTodo]);
+                // setTodos([...tareas, updatedTodo]);
             })
             .catch((error) => {
                 console.error('Error updating status:', error);
@@ -57,7 +56,7 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
                     ...newTask
                 }
                 onSetTareas([...tareas, newTaskList]);
-                setTodos([...tareas, newTaskList]);
+                // setTodos([...tareas, newTaskList]);
             })
 
     };
@@ -95,7 +94,6 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
                    {sections.map((section) => (
                        <Section
                            key={section}
-                           todosFull={tareas}
                            section={section}
                            todos={tareas.filter((todo) => {
                                return todo.status === section;
@@ -108,9 +106,8 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
                            {tareas.filter((todo) => todo.status === section).length > 0 && (
                                <Section
                                    key={section}
-                                   todosFull={todos}
                                    section={section}
-                                   todos={todos.filter((todo) => todo.status === section)}
+                                   todos={tareas.filter((todo) => todo.status === section)}
                                    changeStatus={changeStatus}
                                    addTask={addTask}
                                    sectionClass={sectionClasses[section]}
