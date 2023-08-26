@@ -9,7 +9,7 @@ const TodoItem = ({ todo, index, changeStatus }) => (
                 ref={provided.innerRef}
                 className="todo-item"
             >
-                {todo.content}
+                {todo.name}
                 {todo.status !== 'done' && (
                     <button
                         onClick={() => changeStatus(todo.id)}

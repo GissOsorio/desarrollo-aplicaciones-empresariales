@@ -8,14 +8,14 @@ const initialTodos = [
     { id: '3', content: 'Go for a run', status: 'done' },
 ];
 
-const TodoList = () => {
-    const [todos, setTodos] = useState(initialTodos);
+const TodoList = ({tareas}) => {
+    const [todos, setTodos] = useState(tareas);
     const [serverUrl, setServerUrl] = useState('http://localhost:5000');
 
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
-        const updatedTodos = Array.from(todos);
+        const updatedTodos = Array.from(todos as any);
         const [reorderedItem] = updatedTodos.splice(result.source.index, 1);
         updatedTodos.splice(result.destination.index, 0, reorderedItem);
 

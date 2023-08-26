@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from "../routes/api.tsx";
+import axios from "axios";
 
 const TableroUsuario = ({ tablerosUsuario, userId }) => {
 const [nuevoTablero, setNuevoTablero] = useState({ name: '', status: 'open', userId });
@@ -14,17 +15,15 @@ const handleInputChange = (event) => {
 };
 
     const agregarTablero = () => {
-        // Aquí podrías validar los datos del nuevoTablero antes de agregarlo
-        api.post(`lists`, nuevoTablero) // Agregar nuevoTablero en la solicitud
+        axios.post('http://localhost:8034/lists', nuevoTablero)
             .then(response => {
-                console.log('Nuevo Tablero agregado:', response.data);
                 // Actualizar la lista de tableros después de agregar uno nuevo
                 setTableros(prevTableros => [...prevTableros, response.data]);
                 // Reiniciar el estado de nuevoTablero para futuras entradas
                 setNuevoTablero({ name: '', status: '', userId });
             })
             .catch(error => {
-                console.error('Error al agregar nuevo tablero:', error);
+                console.error('Error creando tablero:', error);
             });
     };
 

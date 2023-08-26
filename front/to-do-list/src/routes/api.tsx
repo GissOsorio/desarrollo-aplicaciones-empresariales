@@ -9,19 +9,19 @@ const axiosInstance = axios.create({
 const api = {
     get: (routeKey) => {
         console.log(`GET request to ${API_ROUTES[routeKey]}`);
-        return axiosInstance.get(`http://localhost:8031/${routeKey}`);
+        return axiosInstance.get(`http://localhost:8034/${routeKey}`);
     },
     post: (routeKey, data) => {
         console.log(`POST request to ${API_ROUTES[routeKey]}`);
-        return axiosInstance.post(`http://localhost:8031/${routeKey}/`, data);
+        return axiosInstance.post(`http://localhost:8034/${routeKey}/`, data);
     },
     put: (routeKey, data) => {
         console.log(`PUT request to ${API_ROUTES[routeKey]}`);
-        return axiosInstance.put(`http://localhost:8031/${routeKey}/`, data);
+        return axiosInstance.put(`http://localhost:8034/${routeKey}/`, data);
     },
     delete: (routeKey) => {
         console.log(`DELETE request to ${API_ROUTES[routeKey]}`);
-        return axiosInstance.delete(`http://localhost:8031/${routeKey}/`);
+        return axiosInstance.delete(`http://localhost:8034/${routeKey}/`);
     },
 };
 
