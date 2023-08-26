@@ -7,7 +7,16 @@ import api from "../routes/api.tsx";
 const TareasPage = () => {
     let { idTablero } = useParams()
     const [tareas, setTareas] = useState([]);
-
+    const [tablero, setTablero] = useState({})
+    useEffect(() => {
+        api.get(`lists/${idTablero}`)
+            .then(response => {
+                setTablero(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener listas de usuario:', error);
+            });
+    }, [idTablero]);
     useEffect(() => {
         api.get(`elements/listid/${idTablero}`)
             .then(response => {
@@ -20,7 +29,7 @@ const TareasPage = () => {
     }, [idTablero]);
     return (
         <section className="Blog">
-            <p >Tareas Page {idTablero}</p>
+            <p >{ tablero.name}</p>
             <TodoList tareas={tareas} tableroId={idTablero}/>
         </section>
     )

@@ -3,9 +3,8 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Section from "./section.tsx";
 
 const TodoList = ({tareas, tableroId}) => {
-    if (!Array.isArray(tareas) || tareas.length === 0) {
-        return <p>No hay tareas disponibles.</p>;
-    }
+    const [newTaskContent, setNewTaskContent] = useState('');
+
     const [todos, setTodos] = useState(tareas);
 
     const handleDragEnd = (result) => {
@@ -18,12 +17,12 @@ const TodoList = ({tareas, tableroId}) => {
                 ? { ...todo, status: getNextStatus(todo.status) }
                 : todo
         );
-        console.log('upda', updatedTodos)
-        console.log('upda333', JSON.stringify(updatedTodos.filter((element)=> element.id === todoId)[0]))
         fetch('http://localhost:8080/elements/status/'+todoId, {  // Enter your IP address here
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(updatedTodos.filter((element)=> element.id === todoId)[0]) // body data type must match "Content-Type" header
+        }).then((response)=> {
+            console.log('response', response)
         })
         setTodos(updatedTodos);
     };
@@ -38,6 +37,8 @@ const TodoList = ({tareas, tableroId}) => {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(newTask) // body data type must match "Content-Type" header
+        }).then((response)=> {
+            console.log('response crear', response)
         })
         setTodos([...todos, newTask]);
     };
@@ -60,38 +61,79 @@ const TodoList = ({tareas, tableroId}) => {
         done: 'done-section'
     };
 
-    return (
-        <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="sections-container">
-                {sections.map((section) => (
-                    <Section
-                        key={section}
-                        todosFull={todos}
-                        section={section}
-                        todos={todos.filter((todo) => {
-                            return todo.status === section;
-                        })}
-                        changeStatus={changeStatus}
-                        addTask={addTask}
-                        sectionClass={sectionClasses[section]}
-                    >
-                        {/* Render the section only if there are todos */}
-                        {todos.filter((todo) => todo.status === section).length > 0 && (
-                            <Section
-                                key={section}
-                                todosFull={todos}
-                                section={section}
-                                todos={todos.filter((todo) => todo.status === section)}
-                                changeStatus={changeStatus}
-                                addTask={addTask}
-                                sectionClass={sectionClasses[section]}
+    if (!Array.isArray(tareas) || tareas.length === 0) {
+        return  (
+            <div>
+                <p>No hay tareas disponibles.</p>
+                <div className="add-task">
+                    <input
+                        type="text"
+                        placeholder="Crear nueva tarea..."
+                        value={newTaskContent}
+                        onChange={(e) => setNewTaskContent(e.target.value)}
+                    />
+                    <button onClick={() => addTask(newTaskContent, 'todo')}
+                            className="btn-success"
+                    >Agregar
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon-add"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                             />
-                        )}
-                    </Section>
-                ))}
+                        </svg>
+                        Agregar
+                    </button>
+                </div>
+                <div className="add-task-input">
+
+
+                </div>
             </div>
-        </DragDropContext>
-    );
+        );
+    }
+
+    return (
+       <>
+           <DragDropContext onDragEnd={handleDragEnd}>
+               <div className="sections-container">
+                   {sections.map((section) => (
+                       <Section
+                           key={section}
+                           todosFull={todos}
+                           section={section}
+                           todos={todos.filter((todo) => {
+                               return todo.status === section;
+                           })}
+                           changeStatus={changeStatus}
+                           addTask={addTask}
+                           sectionClass={sectionClasses[section]}
+                       >
+                           {/* Render the section only if there are todos */}
+                           {todos.filter((todo) => todo.status === section).length > 0 && (
+                               <Section
+                                   key={section}
+                                   todosFull={todos}
+                                   section={section}
+                                   todos={todos.filter((todo) => todo.status === section)}
+                                   changeStatus={changeStatus}
+                                   addTask={addTask}
+                                   sectionClass={sectionClasses[section]}
+                               />
+                           )}
+                       </Section>
+                   ))}
+               </div>
+           </DragDropContext>
+       </>
+    )
 };
 
 export default TodoList;
