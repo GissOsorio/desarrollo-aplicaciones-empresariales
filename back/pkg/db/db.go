@@ -105,7 +105,7 @@ func CreateTableElements(db *sql.DB) {
         return
     }
     if !exists {
-        results, err := db.Query("CREATE TABLE elements (id UUID PRIMARY KEY, date timestamp, listId  UUID REFERENCES lists(id) ON DELETE CASCADE, name VARCHAR(50) NOT NULL, status VARCHAR(50) NOT NULL);")
+        results, err := db.Query("CREATE TABLE elements (id UUID PRIMARY KEY, date timestamp, listId  UUID REFERENCES lists(id) ON DELETE CASCADE, content VARCHAR(50) NOT NULL, status VARCHAR(50) NOT NULL);")
         if err != nil {
             fmt.Println("failed to execute query", err)
             return
@@ -113,9 +113,9 @@ func CreateTableElements(db *sql.DB) {
         fmt.Println("Table created successfully", results)
 
         for _, element := range mocks.Elements {
-            queryStmt := `INSERT INTO elements (id,date,listId,name,status) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
+            queryStmt := `INSERT INTO elements (id,date,listId,content,status) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
 
-            err := db.QueryRow(queryStmt, &element.Id, &element.Date, &element.ListId, &element.Name, &element.Status).Scan(&element.Id)
+            err := db.QueryRow(queryStmt, &element.Id, &element.Date, &element.ListId, &element.Content, &element.Status).Scan(&element.Id)
             if err != nil {
                 log.Println("failed to execute query", err)
                 return

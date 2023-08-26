@@ -36,6 +36,7 @@ func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
 
     w.Header().Add("Content-Type", "application/json")
     enableCors(&w)
+    w.Header().Set("Referer", "")
     w.WriteHeader(http.StatusCreated)
     json.NewEncoder(w).Encode("Created")
 }

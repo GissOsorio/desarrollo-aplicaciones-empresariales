@@ -7,6 +7,6 @@ import (
 )
 
 var Lists = []models.List{
-	{Id: uuid.New(), Date: time.Now(), UserId: "1", Name: "Lista de Compras", Status: "Open"},
-	{Id: uuid.New(), Date: time.Now(), UserId: "1", Name: "Lista de Ciudades", Status: "Open"},
+	{Id: uuid.New(), Date: time.Now(), UserId: "google-oauth2|116444648959900838283", Name: "Lista de Compras", Status: "Open"},
+	{Id: uuid.New(), Date: time.Now(), UserId: "google-oauth2|116444648959900838283", Name: "Lista de Ciudades", Status: "Open"},
 }

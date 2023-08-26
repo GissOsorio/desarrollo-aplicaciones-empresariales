@@ -27,7 +27,7 @@ func (h handler) GetElementByListId(w http.ResponseWriter, r *http.Request) {
 
     for results.Next() {
         var element models.Element
-        err = results.Scan(&element.Id, &element.Date,&element.ListId, &element.Name, &element.Status)
+        err = results.Scan(&element.Id, &element.Date,&element.ListId, &element.Content, &element.Status)
         if err != nil {
             log.Println("failed to scan", err)
             w.WriteHeader(500)
