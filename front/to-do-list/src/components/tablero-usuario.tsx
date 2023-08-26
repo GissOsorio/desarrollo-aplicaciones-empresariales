@@ -15,17 +15,15 @@ const handleInputChange = (event) => {
 };
 
     const agregarTablero = () => {
-        axios.post('http://localhost:8034/lists', nuevoTablero)
-            .then(response => {
-                // Actualizar la lista de tableros después de agregar uno nuevo
-                setTableros(prevTableros => [...prevTableros, response.data]);
-                // Reiniciar el estado de nuevoTablero para futuras entradas
-                setNuevoTablero({ name: '', status: '', userId });
-            })
-            .catch(error => {
-                console.error('Error creando tablero:', error);
-            });
+        fetch('http://localhost:8080/lists', {  // Enter your IP address here
+
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(nuevoTablero) // body data type must match "Content-Type" header
+
+        })
     };
+
 
     useEffect(() => {
         api.get(`lists/${userId}`)
@@ -35,7 +33,7 @@ const handleInputChange = (event) => {
             .catch(error => {
                 console.error('Error al obtener listas de usuario:', error);
             });
-    }, [userId, api]);
+    }, [userId]);
    return <div>
         <div>
             <div className="p-4">
