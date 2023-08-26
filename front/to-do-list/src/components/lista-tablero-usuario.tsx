@@ -5,25 +5,33 @@ import {useParams} from "react-router-dom";
 import api from "../routes/api.tsx";
 
 const ListaTableroUsuario = () => {
-    const [usuarios, setUsuarios] = useState([]);
+    const [tablerosUsuario, setTableros] = useState([]);
     const { userId } = useParams();
-
+    const agregarTablero = nuevoTablero => {
+        setTableros(prevTableros => [...prevTableros, nuevoTablero]);
+    };
     useEffect(() => {
         api.get(`lists/userid/${userId}`)
             .then(response => {
-                setUsuarios(response.data);
+                setTableros(response.data);
+                console.log('response data', response.data);
             })
             .catch(error => {
                 console.error('Error fetching user lists:', error);
             });
     }, [userId]);
 
-    return (
-        <>
-            <TableroUsuario usuarios={usuarios} />
-        </>
-    );
-}
+    if (tablerosUsuario ) {
+        // Muestra un indicador de carga o simplemente no renderiza nada
+        return (
+            <>
+                <TableroUsuario tablerosUsuario={tablerosUsuario} userId={userId} />
+            </>
+        );
+    }
+    return null
 
+
+}
 
 export default ListaTableroUsuario;

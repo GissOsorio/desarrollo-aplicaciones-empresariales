@@ -1,14 +1,66 @@
 import {Link} from "react-router-dom";
-const tablerosUsuarioEjemplo = [
-    { id: 1, nombre: 'Tablero 1', descripcion: 'Descripción del Tablero 1', estado: 'Activo' },
-    { id: 2, nombre: 'Tablero 2', descripcion: 'Descripción del Tablero 2', estado: 'Inactivo' },
-    { id: 3, nombre: 'Tablero 3', descripcion: 'Descripción del Tablero 3', estado: 'Pendiente' },
-    // ... puedes agregar más objetos según tus necesidades
-];
-const TableroUsuario = ({ tablerosUsuario=tablerosUsuarioEjemplo }) => (
-    <div>
+import {useEffect, useState} from "react";
+import api from "../routes/api.tsx";
+
+const TableroUsuario = ({ tablerosUsuario, userId }) => {
+const [nuevoTablero, setNuevoTablero] = useState({ name: '', status: 'open', userId });
+const [tableros, setTableros] = useState([]);
+const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setNuevoTablero((prevTablero) => ({
+        ...prevTablero,
+        [name]: value,
+    }));
+};
+
+    const agregarTablero = () => {
+        // Aquí podrías validar los datos del nuevoTablero antes de agregarlo
+        api.post(`lists`, nuevoTablero) // Agregar nuevoTablero en la solicitud
+            .then(response => {
+                console.log('Nuevo Tablero agregado:', response.data);
+                // Actualizar la lista de tableros después de agregar uno nuevo
+                setTableros(prevTableros => [...prevTableros, response.data]);
+                // Reiniciar el estado de nuevoTablero para futuras entradas
+                setNuevoTablero({ name: '', status: '', userId });
+            })
+            .catch(error => {
+                console.error('Error al agregar nuevo tablero:', error);
+            });
+    };
+
+    useEffect(() => {
+        api.get(`lists/${userId}`)
+            .then(response => {
+                setTableros(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener listas de usuario:', error);
+            });
+    }, [userId, api]);
+   return <div>
+        <div>
+            <div className="p-4">
+                <h2 className="text-lg font-semibold mb-2">Agregar Nuevo Tablero</h2>
+                <div className="flex">
+                    <input
+                        type="text"
+                        name="name"
+                        value={nuevoTablero.name}
+                        onChange={handleInputChange}
+                        placeholder="Nombre del tablero"
+                        className="border rounded px-2 py-1 mr-2"
+                    />
+                    <button
+                        onClick={agregarTablero}
+                        className="bg-blue-500 text-white px-2 py-1 rounded"
+                    >
+                        Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
         <div className="md:px-32 py-8 w-full">
-            {tablerosUsuario.length === 0 ? (
+            {!tablerosUsuario ? (
                 <p>No hay Datos</p>
             ) : (
                 <div className="shadow overflow-hidden rounded border-b border-gray-200">
@@ -17,7 +69,6 @@ const TableroUsuario = ({ tablerosUsuario=tablerosUsuarioEjemplo }) => (
                         <tr>
                             <th className="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">Número</th>
                             <th className="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">Nombre</th>
-                            <th className="w-2/5 text-left py-3 px-4 uppercase font-semibold text-sm">Descripción</th>
                             <th className="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">Estado</th>
                             <th className="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
                         </tr>
@@ -26,9 +77,8 @@ const TableroUsuario = ({ tablerosUsuario=tablerosUsuarioEjemplo }) => (
                         {tablerosUsuario.map((tableroUsuario, index) => (
                             <tr key={tableroUsuario.id} className={index % 2 === 0 ? "bg-gray-100" : ""}>
                                 <td className="w-1/5 text-left py-3 px-4">{index + 1}</td>
-                                <td className="w-1/5 text-left py-3 px-4">{tableroUsuario.nombre}</td>
-                                <td className="w-2/5 text-left py-3 px-4">{tableroUsuario.descripcion}</td>
-                                <td className="w-1/5 text-left py-3 px-4">{tableroUsuario.estado}</td>
+                                <td className="w-1/5 text-left py-3 px-4">{tableroUsuario.name}</td>
+                                <td className="w-1/5 text-left py-3 px-4">{tableroUsuario.status}</td>
                                 <td className="w-1/5 text-left py-3 px-4">
                                     <button className="text-orange-500 background-transparent font-bold uppercase px-8 py-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
                                         <Link to={`/tareas/${tableroUsuario.id}`}>Ver tareas</Link>
@@ -43,6 +93,6 @@ const TableroUsuario = ({ tablerosUsuario=tablerosUsuarioEjemplo }) => (
             )}
         </div>
     </div>
-);
+}
 
 export default TableroUsuario;
