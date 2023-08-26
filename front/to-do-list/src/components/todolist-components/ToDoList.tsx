@@ -37,26 +37,34 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
             });
     };
     const addTask = (content, section) => {
-
         const newTask = {
             content,
             status: section,
             listId: tableroId
         };
-        fetch('http://localhost:8080/elements', {  // Enter your IP address here
+
+        fetch('http://localhost:8080/elements', {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify(newTask) // body data type must match "Content-Type" header
-        }).then(response=> response.json())
-            .then(idTask=> {
+            body: JSON.stringify(newTask)
+        })
+            .then(response => response.json())
+            .then(idTask => {
                 const newTaskList = {
                     id: idTask,
                     ...newTask
-                }
-                onSetTareas([...tareas, newTaskList]);
-                // setTodos([...tareas, newTaskList]);
-            })
+                };
 
+                // If there are existing tasks, update the state with the new task
+                if (tareas) {
+                    onSetTareas([...tareas, newTaskList]);
+                } else {
+                    onSetTareas([newTaskList]);
+                }
+            })
+            .catch(error => {
+                console.error('Error adding task:', error);
+            });
     };
 
     const getNextStatus = (currentStatus) => {
