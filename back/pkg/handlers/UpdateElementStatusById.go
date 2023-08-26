@@ -11,10 +11,10 @@ import (
 )
 
 func (h handler) UpdateElementStatusById(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     vars := mux.Vars(r)
     id := vars["elementId"]
 
-    // Read request body
     defer r.Body.Close()
     body, err := ioutil.ReadAll(r.Body)
 

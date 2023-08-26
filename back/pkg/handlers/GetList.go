@@ -10,6 +10,7 @@ import (
 )
 
 func (h handler) GetList(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     vars := mux.Vars(r)
     id := vars["listId"]
 

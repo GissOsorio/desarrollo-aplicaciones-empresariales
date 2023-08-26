@@ -10,6 +10,7 @@ import (
 )
 
 func (h handler) GetElementByListIdDoing(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     vars := mux.Vars(r)
     listId := vars["listId"]
 

@@ -9,6 +9,7 @@ import (
 )
 
 func (h handler) GetAllElements(w http.ResponseWriter, r *http.Request) { 
+    enableCors(&w)
     results, err := h.DB.Query("SELECT * FROM elements;")
     if err != nil {
         log.Println("failed to execute query", err)

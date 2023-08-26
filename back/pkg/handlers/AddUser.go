@@ -7,10 +7,9 @@ import (
     "time"
 	"net/http"
 	"back/pkg/models"
-	"github.com/google/uuid"
 )
 
-func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
+func (h handler) AddUser(w http.ResponseWriter, r *http.Request) {
     enableCors(&w)
     defer r.Body.Close()
     body, err := ioutil.ReadAll(r.Body)
@@ -20,13 +19,12 @@ func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(500)
         return
     }
-    var list models.List
-    json.Unmarshal(body, &list)
+    var user models.User
+    json.Unmarshal(body, &user)
 
-    list.Id = uuid.New()
-    list.Date = time.Now()
-    queryStmt := `INSERT INTO lists (id,date,userId,name,status) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
-    err = h.DB.QueryRow(queryStmt, &list.Id, &list.Date, &list.UserId, &list.Name, &list.Status).Scan(&list.Id)
+    user.Date = time.Now()
+    queryStmt := `INSERT INTO users (id,date,name) VALUES ($1, $2, $3) RETURNING id;`
+    err = h.DB.QueryRow(queryStmt, &user.Id, &user.Date, &user.Name).Scan(&user.Id)
     if err != nil {
         log.Println("failed to execute query", err)
         w.WriteHeader(500)
@@ -37,5 +35,3 @@ func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusCreated)
     json.NewEncoder(w).Encode("Created")
 }
-
-

@@ -10,6 +10,7 @@ import (
 )
 
 func (h handler) GetListByUserId(w http.ResponseWriter, r *http.Request) {
+    enableCors(&w)
     vars := mux.Vars(r)
     userId := vars["userId"]
 
