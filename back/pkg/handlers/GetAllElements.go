@@ -20,7 +20,7 @@ func (h handler) GetAllElements(w http.ResponseWriter, r *http.Request) {
     var elements = make([]models.Element, 0)
     for results.Next() {
         var element models.Element
-        err = results.Scan(&element.Id, &element.Date, &element.ListId, &element.Name, &element.Status)
+        err = results.Scan(&element.Id, &element.Date, &element.ListId, &element.Content, &element.Status)
         if err != nil {
             log.Println("failed to scan", err)
             w.WriteHeader(500)

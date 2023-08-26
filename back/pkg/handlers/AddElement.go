@@ -25,8 +25,8 @@ func (h handler) AddElement(w http.ResponseWriter, r *http.Request) {
 
     element.Id = uuid.New()
     element.Date = time.Now()
-    queryStmt := `INSERT INTO elements (id,date,listId,name,status) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
-    err = h.DB.QueryRow(queryStmt, &element.Id, &element.Date, &element.ListId, &element.Name, &element.Status).Scan(&element.Id)
+    queryStmt := `INSERT INTO elements (id,date,listId,content,status) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
+    err = h.DB.QueryRow(queryStmt, &element.Id, &element.Date, &element.ListId, &element.Content, &element.Status).Scan(&element.Id)
     if err != nil {
         log.Println("failed to execute query", err)
         w.WriteHeader(500)

@@ -54,7 +54,7 @@ func handleRequests(DB *sql.DB) {
 	// Update Element Status By ElementId
 	myRouter.HandleFunc("/elements/status/{elementId}", h.UpdateElementStatusById).Methods(http.MethodPut)
 
-    log.Fatal(http.ListenAndServe(":8034", myRouter))
+    log.Fatal(http.ListenAndServe(":8080", myRouter))
 
 }
 
