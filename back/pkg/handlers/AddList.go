@@ -11,16 +11,14 @@ import (
 )
 
 func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
-        // Enable CORS by setting the appropriate headers
-        w.Header().Set("Access-Control-Allow-Origin", "*")            // Allow requests from any origin
-        w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS") // Allow POST and OPTIONS methods
-        w.Header().Set("Access-Control-Allow-Headers", "Content-Type")  // Allow Content-Type header
+    w.Header().Set("Access-Control-Allow-Origin", "*")           
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS") 
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")  
     
-        // Handle preflight OPTIONS request (sent by browsers before the actual POST request)
-        if r.Method == http.MethodOptions {
-            w.WriteHeader(http.StatusOK)
-            return
-        }
+    if r.Method == http.MethodOptions {
+        w.WriteHeader(http.StatusOK)
+        return
+    }
 
     defer r.Body.Close()
     
@@ -36,6 +34,7 @@ func (h handler) AddList(w http.ResponseWriter, r *http.Request) {
 
     list.Id = uuid.New()
     list.Date = time.Now()
+    list.Status = "open"
     queryStmt := `INSERT INTO lists (id,date,userId,name,status) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
     err = h.DB.QueryRow(queryStmt, &list.Id, &list.Date, &list.UserId, &list.Name, &list.Status).Scan(&list.Id)
     if err != nil {
