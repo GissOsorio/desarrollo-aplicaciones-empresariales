@@ -10,7 +10,6 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
     };
 
     const changeStatus = (todoId) => {
-        console.log('todoId', todoId)
         const updatedTodo = tareas.find((todo) => todo.id === todoId);
         if (!updatedTodo) {
             console.log('notfound')
@@ -22,17 +21,16 @@ const TodoList = ({tareas, tableroId, onSetTareas}) => {
         fetch('http://localhost:8080/elements/status/' + todoId, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify({ status: updatedStatus }) // Send only the updated status
+            body: JSON.stringify({ status: updatedStatus })
         })
             .then((response) => response.json())
             .then(() => {
                 const updatedTodos = tareas.map((todo) =>
                     todo.id === todoId ? { ...todo, status: updatedStatus } : todo
                 );
-                updatedTodo.status = updatedStatus;
-                console.log('updatedTodo',updatedTodo)
-                onSetTareas([ ...tareas, updatedTodo]);
-                // setTodos([...tareas, updatedTodo]);
+
+                // Update the state with the updated todos
+                onSetTareas(updatedTodos);
             })
             .catch((error) => {
                 console.error('Error updating status:', error);
