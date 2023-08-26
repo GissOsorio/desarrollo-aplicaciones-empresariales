@@ -12,7 +12,7 @@ function App() {
           <Routes>
 
               <Route path="/" element={ <HomePage /> } />
-              <Route path="/tablero-usuario" element={ <TableroPage /> } />
+              <Route path="/tablero-usuario/:userId" element={ <TableroPage /> } />
               <Route path="/tareas/:idTablero" element={ <TareasPage /> } />
           </Routes>
       </div>

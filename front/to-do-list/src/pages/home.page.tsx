@@ -3,6 +3,7 @@ import LogoutButton from "../components/logout-button.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import Menu from "../components/Menu.tsx";
 import {useEffect, useState} from "react";
+import Profile from "../components/profile.tsx";
 
 const HomePage = () => {
     const {isAuthenticated, user} = useAuth0();
@@ -40,7 +41,8 @@ const HomePage = () => {
                     {!isAuthenticated ? <LoginButton/> : null}
                 </div>
                 {isAuthenticated ? <LogoutButton/> : null}
-                {usuarioGuardado ? <Menu /> : null}
+                {usuarioGuardado ? <Menu userId={user?.sub}/> : null}
+                {isAuthenticated ? <Profile /> : null}
 
             </div>
 
